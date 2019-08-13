@@ -219,7 +219,7 @@ def check_p(cards):
 
 def main():
     
-    a = ["Kd", "Kc", "Kh", "3c", "3s", "3h", "3d"]
+    a = ["Kd", "Kc", "2h", "3c", "7s", "4h", "3d"]
     print evaluate(a)
 
 if __name__ == '__main__':
