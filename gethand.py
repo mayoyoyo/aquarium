@@ -9,22 +9,20 @@ def evaluate(cards):
 	if res:
 		#check for royal flush
 		if res[-5:] == [10, 11, 12, 13, 14]:
-				return [9, res[-5:]]
+				return [9, [14, 13, 12, 11, 10]]
 
 		#check for straight flush
 		res.reverse()
 		for i in range(len(res) - 4):
 			if res[i] - res[i+4] == 4:
 				res = res[i:i+5]
-				res.reverse()
 				return [8, res]
 		if res[-4:] == [5, 4, 3, 2] and res[0] == 14:
-			res = [14, 2, 3, 4, 5]
+			res = [5, 4, 3, 2, 14]
 			return [8, res]
 
 		#if flush, no quads/fh can exist
-		res.reverse()
-		return [5, res[-5:]]
+		return [5, res[:5]]
 
 	res = check_quads(cards)
 	if res:
@@ -58,7 +56,7 @@ def evaluate(cards):
 		elif cards[n][0] == "J": cards[n] = 11
 		elif cards[n][0] == "T": cards[n] = 10
 		else: cards[n] = int(cards[n][0])
-	return [0, sorted(cards)[2:]]
+	return [0, sorted(cards, reverse=True)[:-2]]
 
 def check_flush(cards):
 	# h, d, c, s
@@ -147,10 +145,9 @@ def check_str(cards):
 	for i in range(len(vals) - 4):
 		if vals[i] - vals[i+4] == 4:
 			vals = vals[i:i+5]
-			vals.reverse()
 			return vals
 	if vals[-4:] == [5, 4, 3, 2] and vals[0] == 14:
-		return [14, 2, 3, 4, 5]
+		return [5, 4, 3, 2, 14]
 
 def check_3x(cards):
 	clone = cards[:]
@@ -172,7 +169,7 @@ def check_3x(cards):
 			high1 = max(a)
 			a.remove(high1)
 			high2 = max(a)
-			return [c, c, c, high2, high1]
+			return [c, c, c, high1, high2]
 
 def check_2p(cards):
 	clone = cards[:]
@@ -215,11 +212,11 @@ def check_p(cards):
 		if count[c-2] == 2:
 			clone.remove(c)
 			clone.sort()
-			return [c, c, clone[-4], clone[-3], clone[-2]]
+			return [c, c, clone[-2], clone[-3], clone[-4]]
 
 def main():
     
-    a = ["Kd", "Kc", "2h", "3c", "7s", "4h", "3d"]
+    a = ["2s", "8s", "2d", "4c", "5s", "3d", "7s"]
     print evaluate(a)
 
 if __name__ == '__main__':
