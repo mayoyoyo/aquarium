@@ -4,7 +4,13 @@ class Player:
 	def __init__(self, name):
 		self.name = name
 		self.hand = ["", ""]
-		self.value = 0 
+		self.chips = 0 
+		self.buyin = 0
+		self.seat = None
+
+	def getchips(self, chips):
+		self.chips += chips
+		self.buyin += chips
 
 def main():
    	p1 = Player("Hero")
