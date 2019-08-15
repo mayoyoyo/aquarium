@@ -12,6 +12,9 @@ class Player:
 		self.chips += chips
 		self.buyin += chips
 
+	def profit(self):
+		return self.chips - self.buyin
+
 def main():
    	p1 = Player("Hero")
    	print p1.hand

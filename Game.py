@@ -1,9 +1,7 @@
 import sys
-from Deck import Deck
 from Player import Player
 from Table import Table
 from Hand import Hand
-from comparehands import compare
 
 class Game:
 

@@ -1,5 +1,4 @@
 import sys
-from Deck import Deck
 from Player import Player
 
 class Table:
