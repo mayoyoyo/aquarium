@@ -30,7 +30,7 @@ class Game:
 		while self.update() > 1:
 
 			self.hand_no += 1
-			
+			print("\nHand %d" %(self.hand_no))
 			# in the beginning button is lowest indexed player to have enough chips
 			if self.hand_no == 1:
 				for i in range(len(self.players)):
