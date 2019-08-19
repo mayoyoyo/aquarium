@@ -18,7 +18,7 @@ class Game:
 		n = 0
 		self.players = self.table.players[:]
 		for i in range(len(self.players)):
-			if self.players[i].chips == 0:
+			if self.players[i] and self.players[i].chips == 0:
 				self.players[i] = None
 			else: n += 1
 		return n
@@ -41,7 +41,7 @@ class Game:
 				#consider patching when bb and/or sb leaves, but for now just move once
 				for i in range(len(self.players)):
 					self.button += 1
-					if self.players[(self.button) % len(self.players)].chips > 0:
+					if self.players[(self.button) % len(self.players)] and self.players[(self.button) % len(self.players)].chips > 0:
 						self.button = (self.button) % len(self.players)
 						break
 
@@ -53,41 +53,42 @@ class Game:
 			#testing
 			print("Pot:% d" %(hand.pot))
 
+			#hand.preflop_action()
+
 			hand.dealflop()
-	   		hand.dealturn()
-	   		hand.dealriver()
-	   		print 
-	   		print hand.board
-	   		print 
-	   		print("Winners: ")
-	   		rollover = hand.showdown()
+			hand.dealturn()
+			hand.dealriver()
+			print()
+			print(hand.board)
+			print("\nWinners: ")
+			rollover = hand.showdown()
 
 			#testing
-			prompt = raw_input("\n" + "Next hand? (Y/N) ")
-   			if prompt == "y": 
-   				continue
-   			else: break
-
-
-
+			prompt = input("\n" + "Next hand? (y/n) ")
+			if prompt == "y":
+				continue
+			else:
+				break
 
 def main():
-	p1 = Player("Hero")
+	name = input("Enter your name: ")
+	p1 = Player(name)
+	chips = int(input("Buy in for: "))
 	p2 = Player("Vill")
 	p3 = Player("Fish")
-   	table = Table()
-   	table.sit(p1, 0)
-   	table.sit(p2, 1)
+	table = Table()
+	table.sit(p1, 0)
+	table.sit(p2, 1)
 
-   	game = Game(table, 1)
+	game = Game(table, 1)
    	
 	table.sit(p3, 2)
-	p1.getchips(200)
-   	p2.getchips(200)
-   	p3.getchips(200)
-   	prompt = raw_input("Start? (Y/N) ")
-   	if prompt == "y": 
-   		game.start()
+	p1.getchips(chips)
+	p2.getchips(200)
+	p3.getchips(200)
+	prompt = input("Start? (y/n) ")
+	if prompt == "y": 
+		game.start()
    	
 	#print game.table.players[1].hand
 	

@@ -25,12 +25,13 @@ def compare(board, p1, p2):
 
 def main():
     
-    board = ['6s', '2s', '2d', '2c', '6d']
+    board = ['6s', '2s', '2d', 'Jc', '6d']
     hero = Player("Hero")
     villain = Player("Vill")
     hero.hand = ["Jh", "Ac"]
     villain.hand = ["7s", "Jd"]
-    print compare(board, hero, villain)
+    for player in compare(board, hero, villain):
+    	print(player.hand) 
 
 if __name__ == '__main__':
     sys.exit(main())

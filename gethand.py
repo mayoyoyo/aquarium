@@ -211,13 +211,14 @@ def check_p(cards):
 		count[c-2] += 1
 		if count[c-2] == 2:
 			clone.remove(c)
+			clone.remove(c)
 			clone.sort()
-			return [c, c, clone[-2], clone[-3], clone[-4]]
+			return [c, c, clone[-1], clone[-2], clone[-3]]
 
 def main():
     
     a = ["2s", "8s", "2d", "4c", "5s", "3d", "7s"]
-    print evaluate(a)
+    print(evaluate(a))
 
 if __name__ == '__main__':
     sys.exit(main())

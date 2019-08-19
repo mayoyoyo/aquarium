@@ -12,41 +12,42 @@ class Hand:
 			for i in range(len(players)):
 				if players[(button + i) % len(players)]:
 					self.playersleft.append(players[(button + i) % len(players)])
-			self.n = len(self.playersleft)
 			deck = Deck()
 			deck.shuffle()
 			self.deck = deck
 			self.board = [""] * 5
 			self.pot = rollover
-			self.small = self.playersleft[1]
-			self.big = self.playersleft[2 % self.n]
 			self.sb = sb
+			self.bet = 0
 
 	#deal to players, where players is a list of players
 	def dealplayers(self):
-		if self.n > 1:
+		if len(self.playersleft) > 1:
 			
 			#test formatting 
 			print
 
-			for i in range(self.n):
+			for i in range(len(self.playersleft)):
 				self.playersleft[i].hand = [self.deck.cards[i*2 + 5], self.deck.cards[i*2 + 6]]
 
 				#testing
 				print(self.playersleft[i].name + ": \t" + ''.join(self.playersleft[i].hand))
 
+	#need to add case in which player doesn't have enough for a bb
 	def post(self):
-		if self.big.chips >= self.sb * 2: 
-			self.big.chips -= self.sb * 2
+		#post big
+		if self.playersleft[2 % len(self.playersleft)].chips >= self.sb * 2: 
+			self.playersleft[2 % len(self.playersleft)].chips -= self.sb * 2
 			self.pot += self.sb * 2
-		if self.small.chips >= self.sb:
-			self.small.chips -= self.sb
+		#post small
+		if self.playersleft[1].chips >= self.sb:
+			self.playersleft[1].chips -= self.sb
 			self.pot += self.sb
 
 		#testing
 		print("\n" + self.playersleft[0].name + " is button \t% d" %(self.playersleft[0].chips))
-		print(self.small.name + " posts sb \t% d" %(self.small.chips))
-		print(self.big.name + " posts bb \t% d" %(self.big.chips))
+		print(self.playersleft[1].name + " posts sb \t% d" %(self.playersleft[1].chips))
+		print(self.playersleft[2 % len(self.playersleft)].name + " posts bb \t% d" %(self.playersleft[2 % len(self.playersleft)].chips))
 				
 	def dealflop(self):
 		self.board[0] = self.deck.cards[0]
@@ -59,6 +60,16 @@ class Hand:
 	def dealriver(self):
 		self.board[4] = self.deck.cards[4]
 
+	def preflop_action(self):
+		pass
+		
+
+	def postflop_action(self):
+		self.bet = 0
+		for player in self.playersleft:
+			player.invested = 0
+		pass
+	
 	#def endhand(self, winner):
 		#winner.chips += self.pot
 		#cover split case and side pot
@@ -70,7 +81,7 @@ class Hand:
 		rollover = 0
 		
 		winners = compare(self.board, self.playersleft[0], self.playersleft[1])
-		for i in range(self.n - 2):
+		for i in range(len(self.playersleft) - 2):
 			temp = compare(self.board, winners[0], self.playersleft[i + 2])
 			if len(temp) == 2:
 				winners.append(self.playersleft[i + 2])
@@ -81,27 +92,25 @@ class Hand:
 		for player in winners:
 			player.chips += prize
 			#testing 
-			print player.name
+			print(player.name)
 		return rollover
 
 
 def main():
 	p1 = Player("Hero")
-	p2 = Player("Villain")
-   	table = Table()
-   	table.sit(p1, 0)
-   	table.sit(p2, 1)
-   	hand1 = Hand(table.players, 0, 1)
-   	prompt = raw_input("Start? (Y/N) ")
-   	if prompt == "y": 
-	   	hand1.dealplayers()
-	   	hand1.dealflop()
-	   	hand1.dealturn()
-	   	hand1.dealriver()
-	   	print hand1.board
-	   	print hand1.playersleft[0].hand
-	   	print hand1.playersleft[1].hand
-	   	print compare(hand1.board, hand1.playersleft[0].hand, hand1.playersleft[1].hand)
+	p2 = Player("Vill")
+	p3 = Player("Fish")
+	p1.getchips(20)
+	p2.getchips(20)
+	p3.getchips(20)
+	table = Table()
+	table.sit(p1, 0)
+	table.sit(p2, 1)
+	table.sit(p3, 2)
+	hand = Hand(table.players, 0, 1, 0) 
+	hand.dealplayers()
+	hand.post()
+	hand.preflop_action()
 	   	
 if __name__ == '__main__':
 	sys.exit(main())

@@ -17,7 +17,7 @@ class Deck:
 def main():
    	deck = Deck()
    	deck.shuffle()
-   	print deck.cards
+   	print(deck.cards)
 
 if __name__ == '__main__':
 	sys.exit(main())
