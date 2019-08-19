@@ -85,7 +85,6 @@ class Hand:
 			temp = compare(self.board, winners[0], self.playersleft[i + 2])
 			if len(temp) == 2:
 				winners.append(self.playersleft[i + 2])
-			else: winners = temp
 
 		prize = self.pot / len(winners)
 		rollover = self.pot % len(winners)
@@ -108,9 +107,12 @@ def main():
 	table.sit(p2, 1)
 	table.sit(p3, 2)
 	hand = Hand(table.players, 0, 1, 0) 
-	hand.dealplayers()
 	hand.post()
-	hand.preflop_action()
+	hand.board = ['Qh', '3h', 'Tc', '9c', 'Qc']
+	p1.hand = ['6h', '9s']
+	p2.hand = ['8d', '9d']
+	p3.hand = ['5s', 'Ac']
+	hand.showdown()
 	   	
 if __name__ == '__main__':
 	sys.exit(main())
